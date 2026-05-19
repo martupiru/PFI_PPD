@@ -37,9 +37,9 @@ int main() {
     srand(time(0));
 
     // Tamaño fijo de matrices
-    int M = 10000;
-    int R = 10000;
-    int N = 10000;
+    int M = 5000;
+    int R = 5000;
+    int N = 5000;
 
     vector<vector<int>> A(M, vector<int>(R));
     vector<vector<int>> B(R, vector<int>(N));
