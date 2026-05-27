@@ -1,4 +1,6 @@
 #include <mpi.h>
+#include <omp.h>
+
 #include <iostream>
 #include <vector>
 #include <cstdlib>
@@ -21,12 +23,12 @@ int main(int argc, char* argv[]) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-    srand(time(0) + rank);
+    srand(1234);
 
     // Dimensiones matrices
-    int M = 3000;
-    int R = 3000;
-    int N = 3000;
+    int M = 5000;
+    int R = 5000;
+    int N = 5000;
 
     // Cantidad de filas por proceso
     vector<int> filasPorProceso(size);
@@ -97,16 +99,21 @@ int main(int argc, char* argv[]) {
 
     double inicio = MPI_Wtime();
 
-    // Multiplicación local
+   //Paralelizamos filas y columnas en el for en hilos
+    #pragma omp parallel for collapse(2)
     for (int i = 0; i < filasLocales; i++) {
 
         for (int j = 0; j < N; j++) {
 
+            int suma = 0;
+
             for (int k = 0; k < R; k++) {
 
-                CLocal[i * N + j] +=
+                suma +=
                     ALocal[i * R + k] * B[k * N + j];
             }
+
+            CLocal[i * N + j] = suma;
         }
     }
 
@@ -136,7 +143,7 @@ int main(int argc, char* argv[]) {
 
     if (rank == 0) {
 
-        cout << "Tiempo paralelo: "
+        cout << "Tiempo paralelo MPI + OpenMP: "
              << (fin - inicio)
              << " segundos" << endl;
     }
