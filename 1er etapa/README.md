@@ -9,8 +9,8 @@ g++ secuencial.cpp -o programa
 ```bash
 ./programa M R N
 ```
-M = filas de la matriz A
-R = columnas de la matriz A y filas de la matriz B
-N = columnas de la matriz B
+###### M = filas de la matriz A
+###### R = columnas de la matriz A y filas de la matriz B
+###### N = columnas de la matriz B
 
 
