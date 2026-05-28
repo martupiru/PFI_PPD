@@ -1,13 +1,13 @@
 #!/bin/bash
 #SBATCH --job-name=matrizHibrida
-#SBATCH --output=salida_%j.txt
-#SBATCH --error=error_%j.txt
+#SBATCH --output=hybrid_%j.txt
+#SBATCH --error=hybrid_error_%j.txt
 
-#SBATCH --nodes=14
+#SBATCH --nodes=1
+#SBATCH --ntasks=4
+#SBATCH --cpus-per-task=2
 
-#SBATCH --ntasks-per-node=4
-#SBATCH --cpus-per-task=4
-
+#SBATCH --partition=short
 #SBATCH --time=01:00:00
 
 module load gcc
@@ -23,4 +23,4 @@ echo "Nodos: $SLURM_JOB_NUM_NODES"
 echo "MPI tasks: $SLURM_NTASKS"
 echo "Threads OpenMP: $OMP_NUM_THREADS"
 
-mpirun ./paralelo-mpi-mp
+mpirun ./paralelo-mpi-mp 5000 5000 5000
