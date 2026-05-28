@@ -1,58 +1,55 @@
 #include <iostream>
 #include <vector>
 #include <cstdlib>
-#include <ctime>
 #include <chrono>
 
 using namespace std;
 using namespace chrono;
 
-// llenar matriz con numeros aleratorios 
+// llenar matriz con numeros aleatorios
 void cargarMatrizAleatoria(vector<vector<int>>& matriz) {
 
     for (int i = 0; i < matriz.size(); i++) {
         for (int j = 0; j < matriz[i].size(); j++) {
 
-            matriz[i][j] = rand() % 10; //numeros entre 0 y 9
+            matriz[i][j] = rand() % 10;
         }
     }
 }
 
-// para prueba con mattrices pequeas
-void mostrarMatriz(const vector<vector<int>>& matriz, string nombre) {
+int main(int argc, char* argv[]) {
 
-    cout << "\nMatriz " << nombre << ":\n";
+    // Verificar parametros
+    if (argc != 4) {
 
-    for (int i = 0; i < matriz.size(); i++) {
-        for (int j = 0; j < matriz[i].size(); j++) {
+        cout << "Uso: ./programa M R N\n";
+        cout << "A = MxR\n";
+        cout << "B = RxN\n";
 
-            cout << matriz[i][j] << "\t";
-        }
-        cout << endl;
+        return 1;
     }
-}
 
-int main() {
+    //dimensiones dadas
+    int M = atoi(argv[1]);
+    int R = atoi(argv[2]);
+    int N = atoi(argv[3]);
 
-    srand(time(0));
+    // Semilla fija
+    srand(1234);
 
-    // Tamaño fijo de matrices
-    int M = 5000;
-    int R = 5000;
-    int N = 5000;
-
+    //Crear matrices
     vector<vector<int>> A(M, vector<int>(R));
     vector<vector<int>> B(R, vector<int>(N));
     vector<vector<int>> C(M, vector<int>(N, 0));
 
-    // Carga automática
+    //cargar matrices aleatorias con numeros
     cargarMatrizAleatoria(A);
     cargarMatrizAleatoria(B);
 
-    // Inicio medicion de tiempo
+    //inicio medicion
     auto inicio = high_resolution_clock::now();
 
-    // Multiplicacion de matrices
+    //multiplicacion matruces
     for (int i = 0; i < M; i++) {
         for (int j = 0; j < N; j++) {
             for (int k = 0; k < R; k++) {
@@ -62,17 +59,18 @@ int main() {
         }
     }
 
-    // Fin medicion
+    //fin medicion
     auto fin = high_resolution_clock::now();
 
-    // Tiempo en segundos
+    //Tiempo total
     duration<double> tiempo = fin - inicio;
 
-    cout << "\nTiempo de ejecucion: "
-         << tiempo.count()
-         << " segundos\n";
+    cout << "\n Matriz A: " << M << "x" << R << endl;
+    cout << "Matriz B: " << R << "x" << N << endl;
 
-    // mostrarMatriz(C, "Resultado");
+    cout << "\n Tiempo de ejecucion: "
+         << tiempo.count()
+         << " segundos \n";
 
     return 0;
 }
