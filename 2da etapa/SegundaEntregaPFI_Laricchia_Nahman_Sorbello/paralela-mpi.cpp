@@ -103,7 +103,7 @@ int main(int argc, char* argv[]) {
         MPI_COMM_WORLD
     );
 
-    MPI_Barrier(MPI_COMM_WORLD);
+    //Quitamos barrier MPI_Barrier(MPI_COMM_WORLD);
 
     double inicio = MPI_Wtime();
 
